@@ -18,7 +18,7 @@
  */
 ext {
   scalaVersion = "2.11"
-  scalaLibVersion = "2.11.5"
+  scalaLibVersion = "2.11.6"
   // Extra options for the compiler:
   // -feature: Give detailed warnings about language feature use (rather than just 'there were 4 warnings')
   // -language:implicitConversions: Allow the use of implicit conversions without warning or library import
