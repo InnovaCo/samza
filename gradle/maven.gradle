@@ -23,12 +23,24 @@ subprojects {
     publications {
       mavenJava(MavenPublication) {
         from components.java
-        if(project.name == 'samza-shell') {
+
+        if (project.name == 'samza-shell') {
           artifact shellTarGz {
             classifier "dist"
           }
         }
-     }
+      }
+    }
+
+    repositories {
+      maven {
+        url mavenRepo
+
+        credentials {
+          username mavenUser
+          password mavenPass
+        }
+      }
     }
   }
 }
