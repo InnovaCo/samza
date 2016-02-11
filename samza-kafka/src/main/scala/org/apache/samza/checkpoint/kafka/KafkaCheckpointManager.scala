@@ -296,15 +296,16 @@ class KafkaCheckpointManager(
               startingOffset = Some(offset) // For next time we call
 
               if (!response.message.hasKey) {
-                throw new KafkaCheckpointException("Encountered message without key.")
-              }
-
-              val checkpointKey = KafkaCheckpointLogKey.fromBytes(Utils.readBytes(response.message.key))
-
-              if (!shouldHandleEntry(checkpointKey)) {
-                debug("Skipping " + entryType + " entry with key " + checkpointKey)
+                warn("Encountered message without key.")
               } else {
-                handleEntry(response.message.payload, checkpointKey)
+
+                val checkpointKey = KafkaCheckpointLogKey.fromBytes(Utils.readBytes(response.message.key))
+
+                if (!shouldHandleEntry(checkpointKey)) {
+                  debug("Skipping " + entryType + " entry with key " + checkpointKey)
+                } else {
+                  handleEntry(response.message.payload, checkpointKey)
+                }
               }
             }
           }
