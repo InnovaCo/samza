@@ -33,6 +33,7 @@ import org.apache.samza.config.SystemConfig.Config2System
 import org.apache.samza.config.ConfigException
 import org.apache.samza.config.MapConfig
 import scala.collection.JavaConversions._
+import scala.util.control.NonFatal
 import org.apache.samza.config.JobConfig
 import java.io.InputStreamReader
 import scala.collection.immutable.Map
@@ -268,9 +269,12 @@ object Util extends Logging {
       oos = new ObjectOutputStream(fos)
       oos.writeLong(checksum)
       oos.writeUTF(data)
+    } catch {
+      case NonFatal(e) => 
+        error(s"Unable to write data ($data) to file $file", e)
     } finally {
-      oos.close()
-      fos.close()
+      if (oos != null) { oos.close() }
+      if (fos != null) { fos.close() }
     }
   }
 
